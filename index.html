@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chey's Mystery Box</title>
-   <style>
+  <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
@@ -23,29 +23,26 @@
     }
 
     .box {
-      width: 400px;
-      height: 400px;
+      display: inline-block;
       margin: 10px;
-      overflow: hidden;
       position: relative;
       cursor: pointer;
-      transition: transform 0.3s ease;
     }
 
     .box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      display: block;
+      max-width: 100%;
+      height: auto;
+      transition: opacity 0.3s ease;
     }
 
     .box img.second {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1.2);
-      width: auto;
+      top: 0;
+      left: 0;
+      width: 100%;
       height: 100%;
+      object-fit: contain;
       opacity: 0;
       z-index: 1;
     }
@@ -63,8 +60,8 @@
   <h1>Welcome to Chey's Mystery Box Site</h1>
   <div class="box-container">
     <div class="box" onclick="revealPrize(this, 1)">
-      <img src="marineBox.png" alt="Mystery Box 1">
-      <img src="marineBoxtype.png" class="second" alt="Hover Image">
+      <img src="box-closed.png" alt="Mystery Box 1">
+      <img src="box-hover.png" class="second" alt="Hover Image">
     </div>
     <div class="box" onclick="revealPrize(this, 2)">
       <img src="box-closed.png" alt="Mystery Box 2">
@@ -128,3 +125,4 @@
   </script>
 </body>
 </html>
+
