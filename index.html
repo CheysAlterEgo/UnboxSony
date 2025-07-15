@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chey's Mystery Box</title>
-  <style>
+   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
@@ -23,8 +23,8 @@
     }
 
     .box {
-      width: 300px;
-      height: 400px;
+      width: 200px;
+      height: 200px;
       margin: 10px;
       overflow: hidden;
       position: relative;
@@ -36,17 +36,21 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: opacity 0.3s ease;
-    }
-
-    .box:hover img:first-child {
-      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     .box img.second {
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1.2);
+      width: auto;
+      height: 100%;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .box:hover img:first-child {
       opacity: 0;
     }
 
