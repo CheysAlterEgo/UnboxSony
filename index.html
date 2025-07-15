@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chey's Mystery Box</title>
-  <style>
+ <style>
   body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -23,16 +23,18 @@
   }
 
   .box {
-    display: inline-block;
+    width: 180px; /* Smaller box size */
+    height: 240px;
     margin: 10px;
     position: relative;
     cursor: pointer;
   }
 
   .box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
-    max-width: 100%;
-    height: auto;
     transition: opacity 0.3s ease;
   }
 
@@ -40,14 +42,15 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(1);
     width: auto;
-    max-width: 120%;
-    max-height: 120%;
+    height: auto;
+    max-width: none;
+    max-height: none;
     opacity: 0;
-    z-index: 1;
-    pointer-events: none;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 10;
     transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
   }
 
   .box:hover img:first-child {
@@ -56,9 +59,10 @@
 
   .box:hover img.second {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.15);
+    transform: translate(-50%, -50%) scale(2); /* Makes the hover image bigger */
   }
 </style>
+
 </head>
 <body>
   <h1>Welcome to Chey's Mystery Box Site</h1>
