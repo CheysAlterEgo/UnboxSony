@@ -58,40 +58,67 @@
 <body>
   <h1>Welcome to Chey's Mystery Box Site</h1>
   <div class="box-container">
-    <div class="box" onclick="revealPrize(this)">
-      <img src="box-closed.png" alt="Mystery Box">
+    <div class="box" onclick="revealPrize(this, 1)">
+      <img src="marineBox.png" alt="Mystery Box 1">
+      <img src="marineBoxtype.png" class="second" alt="Hover Image">
+    </div>
+    <div class="box" onclick="revealPrize(this, 2)">
+      <img src="box-closed.png" alt="Mystery Box 2">
       <img src="box-hover.png" class="second" alt="Hover Image">
     </div>
-    <div class="box" onclick="revealPrize(this)">
-      <img src="box-closed.png" alt="Mystery Box">
+    <div class="box" onclick="revealPrize(this, 3)">
+      <img src="box-closed.png" alt="Mystery Box 3">
       <img src="box-hover.png" class="second" alt="Hover Image">
     </div>
-    <div class="box" onclick="revealPrize(this)">
-      <img src="box-closed.png" alt="Mystery Box">
-      <img src="box-hover.png" class="second" alt="Hover Image">
-    </div>
-    <div class="box" onclick="revealPrize(this)">
-      <img src="box-closed.png" alt="Mystery Box">
+    <div class="box" onclick="revealPrize(this, 4)">
+      <img src="box-closed.png" alt="Mystery Box 4">
       <img src="box-hover.png" class="second" alt="Hover Image">
     </div>
   </div>
 
   <script>
-    const prizeImages = [
-      'prize1.png',
-      'prize2.png',
-      'prize3.png',
-      'prize4.png',
-      'prize5.png'
-    ];
+    const boxPrizes = {
+      1: [
+        'box1-prize1.png', 'box1-prize2.png', 'box1-prize3.png', 'box1-prize4.png',
+        'box1-prize5.png', 'box1-prize6.png', 'box1-prize7.png', 'box1-prize8.png',
+        'box1-prize9.png', 'box1-prize10.png', 'box1-prize11.png', 'box1-prize12.png',
+        'box1-secret.png'
+      ],
+      2: [
+        'box2-prize1.png', 'box2-prize2.png', 'box2-prize3.png', 'box2-prize4.png',
+        'box2-prize5.png', 'box2-prize6.png', 'box2-prize7.png', 'box2-prize8.png',
+        'box2-prize9.png', 'box2-prize10.png', 'box2-prize11.png', 'box2-prize12.png',
+        'box2-secret.png'
+      ],
+      3: [
+        'box3-prize1.png', 'box3-prize2.png', 'box3-prize3.png', 'box3-prize4.png',
+        'box3-prize5.png', 'box3-prize6.png', 'box3-prize7.png', 'box3-prize8.png',
+        'box3-prize9.png', 'box3-prize10.png', 'box3-prize11.png', 'box3-prize12.png',
+        'box3-secret.png'
+      ],
+      4: [
+        'box4-prize1.png', 'box4-prize2.png', 'box4-prize3.png', 'box4-prize4.png',
+        'box4-prize5.png', 'box4-prize6.png', 'box4-prize7.png', 'box4-prize8.png',
+        'box4-prize9.png', 'box4-prize10.png', 'box4-prize11.png', 'box4-prize12.png',
+        'box4-secret.png'
+      ]
+    };
 
-    function revealPrize(box) {
-      const randomPrize = prizeImages[Math.floor(Math.random() * prizeImages.length)];
+    function revealPrize(box, boxNumber) {
+      const prizes = boxPrizes[boxNumber];
+
+      // Make the 13th (index 12) prize harder to get (e.g., 5% chance)
+      const rand = Math.random();
+      let selectedPrize;
+      if (rand < 0.05) {
+        selectedPrize = prizes[12];
+      } else {
+        const normalIndex = Math.floor(Math.random() * 12);
+        selectedPrize = prizes[normalIndex];
+      }
+
       const imgElements = box.getElementsByTagName('img');
-
-      // Replace the first image (the default image)
-      imgElements[0].src = randomPrize;
-      // Optionally also hide the hover effect image
+      imgElements[0].src = selectedPrize;
       imgElements[1].style.display = 'none';
     }
   </script>
