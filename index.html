@@ -1,133 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chey's Mystery Box</title>
- <style>
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f5f5f5;
-  }
-
-  h1 {
-    margin-top: 50px;
-  }
-
-  .box-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 30px;
-  }
-
-  .box {
-    width: 180px;
-    height: 240px;
-    margin: 10px;
-    position: relative;
-    cursor: pointer;
-  }
-
-  .box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: opacity 0.3s ease;
-  }
-
-  .box img.second {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease;
-    pointer-events: none;
-  }
-
-  .box:hover img:first-child {
-    opacity: 0;
-  }
-
-  .box:hover img.second {
-    opacity: 1;
-    width: 500px;
-    height: 500px;
-  }
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gacha Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      margin-top: 30px;
+    }
+    .main-img {
+      width: 300px;
+      margin: 20px auto;
+    }
+    .button-container {
+      margin: 20px;
+    }
+    button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .boxes {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .card {
+      width: 280px;
+      height: 280px;
+      perspective: 1000px;
+    }
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+    }
+    .card-front {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-back {
+      background: white;
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-back img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+    .card-back img.zoomed {
+      transform: scale(1.6);
+      z-index: 10;
+    }
+    .blue { background-color: #3f8efc; }
+    .yellow { background-color: #f9cc2f; }
+    .purple { background-color: #a85ff0; }
+    .loading {
+      font-size: 20px;
+      margin-top: 20px;
+      animation: pulse 1s infinite;
+      color: #555;
+    }
+    #collectionStatus {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: left;
+      width: 220px;
+    }
+    .uncollected {
+      color: #aaa;
+    }
+    .progress-bar {
+      height: 10px;
+      background: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #4caf50;
+      transition: width 0.5s ease-in-out;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+    .animate-glow {
+      animation: glowBase 1s ease forwards;
+    }
+    @keyframes glowBase {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to Chey's Mystery Box Site</h1>
-  <div class="box-container">
-    <div class="box" onclick="revealPrize(this, 1)">
-      <img src="marineBox.png" alt="Mystery Box 1">
-      <img src="marineBoxtype.png" class="second" alt="Hover Image">
-    </div>
-    <div class="box" onclick="revealPrize(this, 2)">
-      <img src="box-closed.png" alt="Mystery Box 2">
-      <img src="box-hover.png" class="second" alt="Hover Image">
-    </div>
-    <div class="box" onclick="revealPrize(this, 3)">
-      <img src="box-closed.png" alt="Mystery Box 3">
-      <img src="box-hover.png" class="second" alt="Hover Image">
-    </div>
-    <div class="box" onclick="revealPrize(this, 4)">
-      <img src="box-closed.png" alt="Mystery Box 4">
-      <img src="box-hover.png" class="second" alt="Hover Image">
-    </div>
+  <h1 id="title">Series Story Part 1</h1>
+  <img src="https://via.placeholder.com/300x200" alt="Main" class="main-img" />
+  <div class="button-container">
+    <button onclick="doPull(1)">1 Pull</button>
+    <button onclick="doPull(5)">5 Pull</button>
   </div>
+  <div id="loading" class="loading" style="display: none;">Loading...</div>
+  <div class="boxes" id="resultContainer"></div>
+  <div id="collectionStatus"></div>
+
+  <audio id="flipSound" src="click.mp3"></audio>
 
   <script>
-    const boxPrizes = {
-      1: [
-        'whale.png', 'sharky.png', 'seal.png', 'shell.png',
-        'clown.png', 'man.png', 'blowfish.png', 'seahorse.png',
-        'star', 'box1-prize10.png', 'box1-prize11.png', 'box1-prize12.png',
-        'box1-secret.png'
-      ],
-      2: [
-        'box2-prize1.png', 'box2-prize2.png', 'box2-prize3.png', 'box2-prize4.png',
-        'box2-prize5.png', 'box2-prize6.png', 'box2-prize7.png', 'box2-prize8.png',
-        'box2-prize9.png', 'box2-prize10.png', 'box2-prize11.png', 'box2-prize12.png',
-        'box2-secret.png'
-      ],
-      3: [
-        'box3-prize1.png', 'box3-prize2.png', 'box3-prize3.png', 'box3-prize4.png',
-        'box3-prize5.png', 'box3-prize6.png', 'box3-prize7.png', 'box3-prize8.png',
-        'box3-prize9.png', 'box3-prize10.png', 'box3-prize11.png', 'box3-prize12.png',
-        'box3-secret.png'
-      ],
-      4: [
-        'box4-prize1.png', 'box4-prize2.png', 'box4-prize3.png', 'box4-prize4.png',
-        'box4-prize5.png', 'box4-prize6.png', 'box4-prize7.png', 'box4-prize8.png',
-        'box4-prize9.png', 'box4-prize10.png', 'box4-prize11.png', 'box4-prize12.png',
-        'box4-secret.png'
-      ]
-    };
+    const items = [
+  { name: 'Sakura', rarity: '4', image: 'images/sakura.png' },
+  { name: 'Luna', rarity: '4', image: 'images/luna.png' },
+  { name: 'Kai', rarity: '4', image: 'images/kai.png' },
+  { name: 'Mira', rarity: '4', image: 'images/mira.png' },
+  { name: 'Zane', rarity: '4', image: 'images/zane.png' },
+  { name: 'Nova', rarity: '4', image: 'images/nova.png' },
+  { name: 'Yuki', rarity: '4', image: 'images/yuki.png' },
+  { name: 'Yumiko', rarity: '5', image: 'yum.png' },
+  { name: 'Orion', rarity: '5', image: 'images/orion.png' },
+  { name: 'Leo', rarity: '5', image: 'images/leo.png' },
+  { name: 'Iris', rarity: '5', image: 'images/iris.png' },
+  { name: 'Vera', rarity: '5', image: 'images/vera.png' },
+  { name: 'Elio', rarity: '5', image: 'images/elio.png' },
+  { name: '???', rarity: 'secret', image: 'images/secret.png' }
+];
 
-    function revealPrize(box, boxNumber) {
-      const prizes = boxPrizes[boxNumber];
+    const collection = {};
+    items.forEach(item => collection[item.name] = 0);
 
-      // Make the 13th (index 12) prize harder to get (e.g., 5% chance)
-      const rand = Math.random();
-      let selectedPrize;
-      if (rand < 0.05) {
-        selectedPrize = prizes[12];
-      } else {
-        const normalIndex = Math.floor(Math.random() * 12);
-        selectedPrize = prizes[normalIndex];
+    function updateCollectionDisplay() {
+      const container = document.getElementById('collectionStatus');
+      let collectedCount = 0;
+      let content = '<strong>Collection Progress:</strong><ul style="list-style:none; padding:0;">';
+
+      items.forEach(item => {
+        const count = collection[item.name];
+        const owned = count > 0;
+        if (owned) collectedCount++;
+        content += `<li class="${owned ? '' : 'uncollected'}">${item.name}${count > 1 ? ' (' + count + ')' : ''}</li>`;
+      });
+
+      content += '</ul>';
+      const progressPercent = (collectedCount / items.length) * 100;
+     content += `
+  <div class="progress-bar">
+    <div class="progress-bar-fill" style="width:${progressPercent}%">
+      <img src="hearticon.png" class="progress-icon" />
+    </div>
+  </div>`;
+
+      container.innerHTML = content;
+
+      if (collectedCount === items.length) {
+        document.getElementById('title').textContent = 'Series Story Part 1 (Completed)';
       }
+    }
 
-      const imgElements = box.getElementsByTagName('img');
-      imgElements[0].src = selectedPrize;
-      imgElements[1].style.display = 'none';
+    function getRandomItem() {
+      const roll = Math.random();
+      if (roll < 0.75) {
+        const fourStars = items.filter(item => item.rarity === '4');
+        return fourStars[Math.floor(Math.random() * fourStars.length)];
+      } else if (roll < 0.95) {
+        const fiveStars = items.filter(item => item.rarity === '5');
+        return fiveStars[Math.floor(Math.random() * fiveStars.length)];
+      } else {
+        return items.find(item => item.rarity === 'secret');
+      }
+    }
+
+    function doPull(count) {
+      const container = document.getElementById('resultContainer');
+      const loader = document.getElementById('loading');
+      container.innerHTML = '';
+      loader.style.display = 'block';
+
+      setTimeout(() => {
+        loader.style.display = 'none';
+
+        for (let i = 0; i < count; i++) {
+          const item = getRandomItem();
+          const card = document.createElement('div');
+          card.className = 'card';
+
+          const cardInner = document.createElement('div');
+          cardInner.className = 'card-inner';
+
+          const cardFront = document.createElement('div');
+          cardFront.className = 'card-front ' + (item.rarity === '4' ? 'blue' : item.rarity === '5' ? 'yellow' : 'purple');
+
+          const cardBack = document.createElement('div');
+          cardBack.className = 'card-back';
+          const img = document.createElement('img');
+          img.src = item.image;
+          img.alt = item.name;
+          img.title = item.name;
+          cardBack.appendChild(img);
+
+          cardInner.appendChild(cardFront);
+          cardInner.appendChild(cardBack);
+          card.appendChild(cardInner);
+
+          card.addEventListener('click', () => {
+            card.classList.add('flipped');
+            card.classList.add('animate-glow');
+
+            const color = item.rarity === '4' ? '#3f8efc' :
+                          item.rarity === '5' ? '#f9cc2f' : '#a85ff0';
+            card.style.boxShadow = `0 0 20px 10px ${color}`;
+
+            const sound = document.getElementById('flipSound');
+            sound.currentTime = 0;
+            sound.play();
+
+            if (collection[item.name] === 0) {
+              collection[item.name] = 1;
+            } else {
+              collection[item.name]++;
+            }
+
+            updateCollectionDisplay();
+          });
+
+          img.addEventListener('dblclick', () => {
+            img.classList.toggle('zoomed');
+          });
+
+          container.appendChild(card);
+        }
+      }, 1500);
     }
   </script>
 </body>
