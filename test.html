@@ -5,76 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Silly Simulator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Federo&family=Ribeye&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Federo&family=Ribeye&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="hearticon.png">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Federo&display=swap" rel="stylesheet">
-
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Federo&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Yrsa:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yrsa:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
   <style>
-     .card.glow-blue {
-  box-shadow: 0 0 20px 5px rgba(63, 142, 252, 0.8);
-}
-
-.card.glow-yellow {
-  box-shadow: 0 0 20px 5px rgba(249, 204, 47, 0.8);
-}
-
-.card.glow-purple {
-  box-shadow: 0 0 20px 5px rgba(168, 95, 240, 0.8);
-}
+    /* Your existing styles here, unchanged */
+    .card.glow-blue {
+      box-shadow: 0 0 20px 5px rgba(63, 142, 252, 0.8);
+    }
+    .card.glow-yellow {
+      box-shadow: 0 0 20px 5px rgba(249, 204, 47, 0.8);
+    }
+    .card.glow-purple {
+      box-shadow: 0 0 20px 5px rgba(168, 95, 240, 0.8);
+    }
     body {
       background-color: #f0f0f0;
       margin: 0;
       padding: 0;
     }
-
     h1 {
       margin-top: 30px;
       text-align: center;
-       font-family: "Yrsa", serif;
-  font-optical-sizing: auto;
-  font-weight:400;
-  font-style: normal;
+      font-family: "Yrsa", serif;
+      font-optical-sizing: auto;
+      font-weight:400;
+      font-style: normal;
     }
-
     .main-img {
       width: 300px;
       display: block;
       margin: 20px auto;
     }
-.earnMoreBtn {
-  background-color: #A5CEE6;       /* warm yellow, like a gacha UI */
-  border: 1px solid #3A6494;       /* black border */
-  border-radius: 10px;             /* rounded corners */
-  color: #000000;                  /* black text */
-  font-size: 18px;
-  padding: 4px 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.earnMoreBtn:hover {
-  background-color: #8BAED6;       /* lighter on hover */
-  transform: scale(1.1);           /* slight grow effect */
-}
+    .earnMoreBtn {
+      background-color: #A5CEE6;
+      border: 1px solid #3A6494;
+      border-radius: 10px;
+      color: #000000;
+      font-size: 18px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .earnMoreBtn:hover {
+      background-color: #8BAED6;
+      transform: scale(1.1);
+    }
     .button-container {
       text-align: center;
       margin: 20px;
     }
-
     button {
       margin: 0 10px;
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
     }
-
     .boxes {
       display: flex;
       justify-content: center;
@@ -82,15 +74,13 @@
       gap: 10px;
       margin-top: 20px;
     }
-
     .card {
       width: 280px;
       height: 280px;
       perspective: 1000px;
-       position: relative;
-  z-index: 1;
+      position: relative;
+      z-index: 1;
     }
-
     .card-inner {
       position: relative;
       width: 100%;
@@ -100,11 +90,9 @@
       border-radius: 10px;
       cursor: pointer;
     }
-
     .card.flipped .card-inner {
       transform: rotateY(180deg);
     }
-
     .card-front, .card-back {
       position: absolute;
       width: 100%;
@@ -112,13 +100,11 @@
       backface-visibility: hidden;
       border-radius: 10px;
     }
-
     .card-front {
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
     .card-back {
       background: white;
       transform: rotateY(180deg);
@@ -126,28 +112,24 @@
       align-items: center;
       justify-content: center;
     }
-
-   .card-back img {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-  position: relative;
-  z-index: 1;
-}
-   .card-back img {
-  transition: transform 0.3s ease;
-}
-
-.card:hover .card-back img {
-  transform: scale(1.2);
-  z-index: 1000;
-}
-
+    .card-back img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+    .card-back img {
+      transition: transform 0.3s ease;
+    }
+    .card:hover .card-back img {
+      transform: scale(1.2);
+      z-index: 1000;
+    }
     .blue { background-color: #3f8efc; }
     .yellow { background-color: #f9cc2f; }
     .purple { background-color: #a85ff0; }
-
     .loading {
       font-size: 20px;
       margin-top: 20px;
@@ -155,7 +137,6 @@
       animation: pulse 1s infinite;
       color: #555;
     }
-
     #collectionStatus {
       position: fixed;
       top: 10px;
@@ -167,14 +148,12 @@
       text-align: left;
       width: 220px;
       font-family: "Ribeye", serif;
-  font-weight: 400;
-  font-style: normal;
+      font-weight: 400;
+      font-style: normal;
     }
-
     .uncollected {
       color: #aaa;
     }
-
     .progress-bar {
       height: 10px;
       background: #ddd;
@@ -182,46 +161,25 @@
       overflow: hidden;
       margin-top: 10px;
     }
-
     .progress-bar-fill {
       height: 100%;
       width: 0%;
       background: #e072b6;
       transition: width 0.5s ease-in-out;
     }
-
     @keyframes pulse {
       0% { opacity: 0.3; }
       50% { opacity: 1; }
       100% { opacity: 0.3; }
     }
-
     .animate-glow {
       animation: glowBase 1s ease forwards;
     }
-
     @keyframes glowBase {
       0% { transform: scale(1); }
       50% { transform: scale(1.1); }
       100% { transform: scale(1); }
     }
-
-    #snakegame {
-  position: fixed;
-  top: 10px;
-  left: 10px;
- background-color: transparent;
-  padding: 0;
-  z-index: 10;           
-}
-#gameCanvas {
-  border: 2px solid black;
-  background-color: #fff6ec;
-  display: block;
-  margin-bottom: 5px;
-}
-
-   
 
     #notEnough {
       color: red;
@@ -229,19 +187,41 @@
       margin-top: 10px;
       display: none;
     }
- 
 
+    /* Snake iframe container styling */
+    #snake-container {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: 400px;
+      height: 420px;
+      background: transparent;
+      z-index: 10;
+      user-select: none;
+    }
+    #snakeScore {
+      color: black;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 5px;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
 
-
+  <!-- Embed Snake Game iframe and score -->
+  <div id="snake-container">
+    <iframe id="snakeIframe" src="snake.html" width="400" height="400" style="border:none;"></iframe>
+    <div id="snakeScore">Score: 0</div>
+  </div>
 
   <h1 id="title">Layer 1</h1>
   <img src="main.png" alt="Main" class="main-img" />
   <div class="button-container">
-    <button class= "earnMoreBtn" onclick="doPull(1)">1 Pull</button>
-    <button class= "earnMoreBtn" onclick="doPull(5)">5 Pull</button>
+    <button class="earnMoreBtn" onclick="doPull(1)">1 Pull</button>
+    <button class="earnMoreBtn" onclick="doPull(5)">5 Pull</button>
     <div id="notEnough">You don't have enough coins!</div>
   </div>
 
@@ -251,122 +231,145 @@
 
   <audio id="flipSound" src="click.mp3"></audio>
 
- <script>
-  const items = [
-    { name: 'Mika', rarity: '4', image: 'images/sakura.png' },
-    { name: 'Shoya', rarity: '4', image: 'images/luna.png' },
-    { name: 'Melanie', rarity: '4', image: 'images/kai.png' },
-    { name: 'Damian', rarity: '4', image: 'images/mira.png' },
-    { name: 'Matt', rarity: '4', image: 'images/zane.png' },
-    { name: 'Susurri', rarity: '4', image: 'images/nova.png' },
-    { name: 'Stella', rarity: '4', image: 'stella.png' },
-    { name: 'Yumiko', rarity: '5', image: 'yum.png' },
-    { name: 'Aiko', rarity: '5', image: 'aiko.png' },
-    { name: 'Luna', rarity: '5', image: 'images/leo.png' },
-    { name: 'Hyun', rarity: '5', image: 'images/iris.png' },
-    { name: 'Moon', rarity: '5', image: 'moon.png' },
-    { name: 'Vivian', rarity: '5', image: 'images/elio.png' },
-    { name: 'Andrew', rarity: 'secret', image: 'andrew.png' }
-  ];
+  <script>
+    const items = [
+      { name: 'Mika', rarity: '4', image: 'images/sakura.png' },
+      { name: 'Shoya', rarity: '4', image: 'images/luna.png' },
+      { name: 'Melanie', rarity: '4', image: 'images/kai.png' },
+      { name: 'Damian', rarity: '4', image: 'images/mira.png' },
+      { name: 'Matt', rarity: '4', image: 'images/zane.png' },
+      { name: 'Susurri', rarity: '4', image: 'images/nova.png' },
+      { name: 'Stella', rarity: '4', image: 'stella.png' },
+      { name: 'Yumiko', rarity: '5', image: 'yum.png' },
+      { name: 'Aiko', rarity: '5', image: 'aiko.png' },
+      { name: 'Luna', rarity: '5', image: 'images/leo.png' },
+      { name: 'Hyun', rarity: '5', image: 'images/iris.png' },
+      { name: 'Moon', rarity: '5', image: 'moon.png' },
+      { name: 'Vivian', rarity: '5', image: 'images/elio.png' },
+      { name: 'Andrew', rarity: 'secret', image: 'andrew.png' }
+    ];
 
-  let coinCount = 10;
+    let coinCount = 10;
 
-  const collection = {};
-  items.forEach(item => collection[item.name] = 0);
+    const collection = {};
+    items.forEach(item => collection[item.name] = 0);
 
-  function updateCollectionDisplay() {
-    const container = document.getElementById('collectionStatus');
-    let collectedCount = 0;
-    let content = '<strong>Collection Progress:</strong><ul style="list-style:none; padding:0;">';
+    function updateCollectionDisplay() {
+      const container = document.getElementById('collectionStatus');
+      let collectedCount = 0;
+      let content = '<strong>Collection Progress:</strong><ul style="list-style:none; padding:0;">';
 
-    items.forEach(item => {
-      const count = collection[item.name];
-      const owned = count > 0;
-      if (owned) collectedCount++;
-      content += `<li class="${owned ? '' : 'uncollected'}">${item.name}${count > 1 ? ' (' + count + ')' : ''}</li>`;
-    });
+      items.forEach(item => {
+        const count = collection[item.name];
+        const owned = count > 0;
+        if (owned) collectedCount++;
+        content += `<li class="${owned ? '' : 'uncollected'}">${item.name}${count > 1 ? ' (' + count + ')' : ''}</li>`;
+      });
 
-    content += '</ul>';
-    const progressPercent = (collectedCount / items.length) * 100;
-    content += `<div class="progress-bar"><div class="progress-bar-fill" style="width:${progressPercent}%"></div></div>`;
-    container.innerHTML = content;
-  }
-
-  function getRandomItem() {
-    const roll = Math.random();
-    if (roll < 0.75) return items.filter(i => i.rarity === '4')[Math.floor(Math.random() * 7)];
-    if (roll < 0.95) return items.filter(i => i.rarity === '5')[Math.floor(Math.random() * 6)];
-    return items.find(i => i.rarity === 'secret');
-  }
-
-  function doPull(count) {
-    if (coinCount < count) {
-      notEnoughMsg.style.display = 'block';
-      setTimeout(() => notEnoughMsg.style.display = 'none', 2000);
-      return;
+      content += '</ul>';
+      const progressPercent = (collectedCount / items.length) * 100;
+      content += `<div class="progress-bar"><div class="progress-bar-fill" style="width:${progressPercent}%"></div></div>`;
+      container.innerHTML = content;
     }
 
-    coinCount -= count;
+    function getRandomItem() {
+      const roll = Math.random();
+      if (roll < 0.75) return items.filter(i => i.rarity === '4')[Math.floor(Math.random() * 7)];
+      if (roll < 0.95) return items.filter(i => i.rarity === '5')[Math.floor(Math.random() * 6)];
+      return items.find(i => i.rarity === 'secret');
+    }
+
+    function doPull(count) {
+      if (coinCount < count) {
+        notEnoughMsg.style.display = 'block';
+        setTimeout(() => notEnoughMsg.style.display = 'none', 2000);
+        return;
+      }
+
+      coinCount -= count;
+      updateCoinDisplay();
+
+      const container = document.getElementById('resultContainer');
+      const loader = document.getElementById('loading');
+      container.innerHTML = '';
+      loader.style.display = 'block';
+
+      setTimeout(() => {
+        loader.style.display = 'none';
+        for (let i = 0; i < count; i++) {
+          const item = getRandomItem();
+          const card = document.createElement('div');
+          card.className = 'card';
+          const cardInner = document.createElement('div');
+          cardInner.className = 'card-inner';
+          const cardFront = document.createElement('div');
+          cardFront.className = 'card-front ' + (item.rarity === '4' ? 'blue' : item.rarity === '5' ? 'yellow' : 'purple');
+          const cardBack = document.createElement('div');
+          cardBack.className = 'card-back';
+          const img = document.createElement('img');
+          img.src = item.image;
+          img.alt = item.name;
+          img.title = item.name;
+          cardBack.appendChild(img);
+          cardInner.appendChild(cardFront);
+          cardInner.appendChild(cardBack);
+          card.appendChild(cardInner);
+
+          card.addEventListener('click', () => {
+            if (card.classList.contains('flipped')) return;
+            card.classList.add('flipped');
+            if (item.rarity === '4') {
+              card.classList.add('glow-blue');
+            } else if (item.rarity === '5') {
+              card.classList.add('glow-yellow');
+            } else if (item.rarity === 'secret') {
+              card.classList.add('glow-purple');
+            }
+            card.classList.add('animate-glow');
+            const sound = document.getElementById('flipSound');
+            sound.currentTime = 0;
+            sound.play();
+            collection[item.name]++;
+            updateCollectionDisplay();
+          });
+
+          container.appendChild(card);
+        }
+      }, 1500);
+    }
+
+    // Listen for score messages from snake.html
+    window.addEventListener('message', event => {
+      if (event.data && event.data.type === 'snakeScore') {
+        const newScore = event.data.score;
+        const scoreDiv = document.getElementById('snakeScore');
+        scoreDiv.textContent = 'Score: ' + newScore;
+
+        // Sync coinCount for pulls
+        coinCount = newScore;
+        updateCoinDisplay();
+
+        const notEnoughMsg = document.getElementById('notEnough');
+        if (notEnoughMsg) notEnoughMsg.style.display = 'none';
+      }
+    });
+
+    // Update button states based on coinCount
+    function updateCoinDisplay() {
+      const buttons = document.querySelectorAll('.earnMoreBtn');
+      buttons.forEach(btn => {
+        const cost = parseInt(btn.textContent);
+        btn.disabled = coinCount < cost;
+      });
+    }
+
+    // Initialize UI on load
+    updateCollectionDisplay();
     updateCoinDisplay();
 
-    const container = document.getElementById('resultContainer');
-    const loader = document.getElementById('loading');
-    container.innerHTML = '';
-    loader.style.display = 'block';
-
-    setTimeout(() => {
-      loader.style.display = 'none';
-      for (let i = 0; i < count; i++) {
-        const item = getRandomItem();
-        const card = document.createElement('div');
-        card.className = 'card';
-        const cardInner = document.createElement('div');
-        cardInner.className = 'card-inner';
-        const cardFront = document.createElement('div');
-        cardFront.className = 'card-front ' + (item.rarity === '4' ? 'blue' : item.rarity === '5' ? 'yellow' : 'purple');
-        const cardBack = document.createElement('div');
-        cardBack.className = 'card-back';
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.name;
-        img.title = item.name;
-        cardBack.appendChild(img);
-        cardInner.appendChild(cardFront);
-        cardInner.appendChild(cardBack);
-        card.appendChild(cardInner);
-
-        card.addEventListener('click', () => {
-  // Prevent multiple clicks
-  if (card.classList.contains('flipped')) return;
-
-  card.classList.add('flipped');
-
-  // ✨ Add glow class based on rarity
-  if (item.rarity === '4') {
-    card.classList.add('glow-blue');
-  } else if (item.rarity === '5') {
-    card.classList.add('glow-yellow');
-  } else if (item.rarity === 'secret') {
-    card.classList.add('glow-purple');
-  }
-
-  card.classList.add('animate-glow');
-
-  const sound = document.getElementById('flipSound');
-  sound.currentTime = 0;
-  sound.play();
-
-  collection[item.name]++;
-  updateCollectionDisplay();
-});
-        
-
-        container.appendChild(card);
-      }
-    }, 1500);
-  }
-</script>
- 
+    // Cache reference to "not enough coins" message div
+    const notEnoughMsg = document.getElementById('notEnough');
+  </script>
 
 </body>
 </html>
