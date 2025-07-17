@@ -48,6 +48,12 @@
   let apples = [];
   let score = 0;
 
+  function sendScoreToParent() {
+    if (window.parent !== window) {
+      window.parent.postMessage({ type: 'snakeScore', score: score }, '*');
+    }
+  }
+
   // Apple types:
   // normal apple = red (1 length)
   // golden apple = yellow (doubles length)
@@ -133,6 +139,7 @@
       const apple = apples[appleIndex];
       score++;
       document.getElementById('score').textContent = 'Score: ' + score;
+      sendScoreToParent();
 
       if (apple.golden) {
         // Double length: just add the current length again at tail
@@ -161,6 +168,7 @@
     apples = [];
     score = 0;
     document.getElementById('score').textContent = 'Score: 0';
+    sendScoreToParent();
     spawnApple();
   }
 
@@ -178,6 +186,9 @@
     moveSnake();
     draw();
   }, 100);
+
+  // Send initial score 0 to parent on load
+  sendScoreToParent();
 })();
 </script>
 
