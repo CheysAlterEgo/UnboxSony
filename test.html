@@ -4,27 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Silly Simulator</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Federo&family=Ribeye&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="hearticon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Federo&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Federo&family=Ribeye&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Yrsa:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
   <style>
-    /* Your existing styles here, unchanged */
-    .card.glow-blue {
-      box-shadow: 0 0 20px 5px rgba(63, 142, 252, 0.8);
-    }
-    .card.glow-yellow {
-      box-shadow: 0 0 20px 5px rgba(249, 204, 47, 0.8);
-    }
-    .card.glow-purple {
-      box-shadow: 0 0 20px 5px rgba(168, 95, 240, 0.8);
-    }
     body {
       background-color: #f0f0f0;
       margin: 0;
@@ -34,9 +17,7 @@
       margin-top: 30px;
       text-align: center;
       font-family: "Yrsa", serif;
-      font-optical-sizing: auto;
-      font-weight:400;
-      font-style: normal;
+      font-weight: 400;
     }
     .main-img {
       width: 300px;
@@ -61,12 +42,6 @@
       text-align: center;
       margin: 20px;
     }
-    button {
-      margin: 0 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
     .boxes {
       display: flex;
       justify-content: center;
@@ -79,10 +54,8 @@
       height: 280px;
       perspective: 1000px;
       position: relative;
-      z-index: 1;
     }
     .card-inner {
-      position: relative;
       width: 100%;
       height: 100%;
       transition: transform 0.8s;
@@ -117,25 +90,21 @@
       max-height: 100%;
       border-radius: 10px;
       transition: transform 0.3s ease;
-      position: relative;
-      z-index: 1;
-    }
-    .card-back img {
-      transition: transform 0.3s ease;
     }
     .card:hover .card-back img {
       transform: scale(1.2);
-      z-index: 1000;
     }
     .blue { background-color: #3f8efc; }
     .yellow { background-color: #f9cc2f; }
     .purple { background-color: #a85ff0; }
-    .loading {
-      font-size: 20px;
-      margin-top: 20px;
-      text-align: center;
-      animation: pulse 1s infinite;
-      color: #555;
+    .card.glow-blue {
+      box-shadow: 0 0 20px 5px rgba(63, 142, 252, 0.8);
+    }
+    .card.glow-yellow {
+      box-shadow: 0 0 20px 5px rgba(249, 204, 47, 0.8);
+    }
+    .card.glow-purple {
+      box-shadow: 0 0 20px 5px rgba(168, 95, 240, 0.8);
     }
     #collectionStatus {
       position: fixed;
@@ -145,11 +114,8 @@
       border: 1px solid #ccc;
       padding: 10px;
       border-radius: 5px;
-      text-align: left;
       width: 220px;
       font-family: "Ribeye", serif;
-      font-weight: 400;
-      font-style: normal;
     }
     .uncollected {
       color: #aaa;
@@ -167,10 +133,15 @@
       background: #e072b6;
       transition: width 0.5s ease-in-out;
     }
+    .loading {
+      font-size: 20px;
+      text-align: center;
+      animation: pulse 1s infinite;
+      color: #555;
+    }
     @keyframes pulse {
-      0% { opacity: 0.3; }
+      0%, 100% { opacity: 0.3; }
       50% { opacity: 1; }
-      100% { opacity: 0.3; }
     }
     .animate-glow {
       animation: glowBase 1s ease forwards;
@@ -180,55 +151,47 @@
       50% { transform: scale(1.1); }
       100% { transform: scale(1); }
     }
-
     #notEnough {
       color: red;
       font-weight: bold;
-      margin-top: 10px;
       display: none;
+      margin-top: 10px;
     }
-
-    /* Snake iframe container styling */
     #snake-container {
       position: fixed;
       top: 10px;
       left: 10px;
       width: 430px;
-      height: 3750px;
-      background: transparent;
-      z-index: 10;
-      user-select: none;
+      height: 375px;
     }
-    #snakeScore {
-      color: black;
+    #snakeScore, #coinDisplay {
       font-weight: bold;
       font-family: Arial, sans-serif;
       text-align: center;
       margin-top: 5px;
-      user-select: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- Embed Snake Game iframe and score -->
   <div id="snake-container">
     <iframe id="snakeIframe" src="snake.html" width="420" height="360" style="border:none;"></iframe>
-    <div id="snakeScore">Score: 0</div>
+    <div id="snakeScore">Snake Score: 0</div>
+    <div id="coinDisplay">Coins: 10</div>
   </div>
 
-  <h1 id="title">Layer 1</h1>
+  <h1>Layer 1</h1>
   <img src="main.png" alt="Main" class="main-img" />
+
   <div class="button-container">
     <button class="earnMoreBtn" onclick="doPull(1)">1 Pull</button>
     <button class="earnMoreBtn" onclick="doPull(5)">5 Pull</button>
     <div id="notEnough">You don't have enough coins!</div>
   </div>
 
-  <div id="loading" class="loading" style="display: none;">Loading...</div>
+  <div id="loading" class="loading" style="display:none;">Loading...</div>
   <div class="boxes" id="resultContainer"></div>
   <div id="collectionStatus"></div>
-
   <audio id="flipSound" src="click.mp3"></audio>
 
   <script>
@@ -250,14 +213,22 @@
     ];
 
     let coinCount = 10;
-
     const collection = {};
     items.forEach(item => collection[item.name] = 0);
+
+    function updateCoinDisplay() {
+      document.getElementById('coinDisplay').textContent = 'Coins: ' + coinCount;
+      const buttons = document.querySelectorAll('.earnMoreBtn');
+      buttons.forEach(btn => {
+        const cost = parseInt(btn.textContent);
+        btn.disabled = coinCount < cost;
+      });
+    }
 
     function updateCollectionDisplay() {
       const container = document.getElementById('collectionStatus');
       let collectedCount = 0;
-      let content = '<strong>Collection Progress:</strong><ul style="list-style:none; padding:0;">';
+      let content = '<strong>Collection Progress:</strong><ul style="list-style:none;">';
 
       items.forEach(item => {
         const count = collection[item.name];
@@ -281,8 +252,8 @@
 
     function doPull(count) {
       if (coinCount < count) {
-        notEnoughMsg.style.display = 'block';
-        setTimeout(() => notEnoughMsg.style.display = 'none', 2000);
+        document.getElementById('notEnough').style.display = 'block';
+        setTimeout(() => document.getElementById('notEnough').style.display = 'none', 2000);
         return;
       }
 
@@ -300,35 +271,27 @@
           const item = getRandomItem();
           const card = document.createElement('div');
           card.className = 'card';
-          const cardInner = document.createElement('div');
-          cardInner.className = 'card-inner';
-          const cardFront = document.createElement('div');
-          cardFront.className = 'card-front ' + (item.rarity === '4' ? 'blue' : item.rarity === '5' ? 'yellow' : 'purple');
-          const cardBack = document.createElement('div');
-          cardBack.className = 'card-back';
+          const inner = document.createElement('div');
+          inner.className = 'card-inner';
+          const front = document.createElement('div');
+          front.className = 'card-front ' + (item.rarity === '4' ? 'blue' : item.rarity === '5' ? 'yellow' : 'purple');
+          const back = document.createElement('div');
+          back.className = 'card-back';
           const img = document.createElement('img');
           img.src = item.image;
           img.alt = item.name;
           img.title = item.name;
-          cardBack.appendChild(img);
-          cardInner.appendChild(cardFront);
-          cardInner.appendChild(cardBack);
-          card.appendChild(cardInner);
+          back.appendChild(img);
+          inner.appendChild(front);
+          inner.appendChild(back);
+          card.appendChild(inner);
 
           card.addEventListener('click', () => {
             if (card.classList.contains('flipped')) return;
             card.classList.add('flipped');
-            if (item.rarity === '4') {
-              card.classList.add('glow-blue');
-            } else if (item.rarity === '5') {
-              card.classList.add('glow-yellow');
-            } else if (item.rarity === 'secret') {
-              card.classList.add('glow-purple');
-            }
+            card.classList.add(`glow-${item.rarity === '4' ? 'blue' : item.rarity === '5' ? 'yellow' : 'purple'}`);
             card.classList.add('animate-glow');
-            const sound = document.getElementById('flipSound');
-            sound.currentTime = 0;
-            sound.play();
+            document.getElementById('flipSound').play();
             collection[item.name]++;
             updateCollectionDisplay();
           });
@@ -338,37 +301,19 @@
       }, 1500);
     }
 
-    // Listen for score messages from snake.html
+    // Message from snake game iframe
     window.addEventListener('message', event => {
       if (event.data && event.data.type === 'snakeScore') {
-        const newScore = event.data.score;
-        const scoreDiv = document.getElementById('snakeScore');
-        scoreDiv.textContent = 'Score: ' + newScore;
-
-        // Sync coinCount for pulls
-        coinCount = newScore;
+        const score = event.data.score;
+        document.getElementById('snakeScore').textContent = 'Snake Score: ' + score;
+        coinCount += score;
         updateCoinDisplay();
-
-        const notEnoughMsg = document.getElementById('notEnough');
-        if (notEnoughMsg) notEnoughMsg.style.display = 'none';
       }
     });
 
-    // Update button states based on coinCount
-    function updateCoinDisplay() {
-      const buttons = document.querySelectorAll('.earnMoreBtn');
-      buttons.forEach(btn => {
-        const cost = parseInt(btn.textContent);
-        btn.disabled = coinCount < cost;
-      });
-    }
-
-    // Initialize UI on load
+    // Initial setup
     updateCollectionDisplay();
     updateCoinDisplay();
-
-    // Cache reference to "not enough coins" message div
-    const notEnoughMsg = document.getElementById('notEnough');
   </script>
 
 </body>
