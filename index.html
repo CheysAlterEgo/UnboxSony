@@ -185,6 +185,50 @@
   padding: 0;               /* removed padding */
   width: auto;              /* removed fixed width */
 }
+#topBar {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 1000;
+  font-family: Arial, sans-serif;
+}
+
+.coin-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.coin-icon {
+  width: 24px;
+  height: 24px;
+}
+
+#coinDisplay {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#earnMoreBtn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #3f8efc;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+#earnMoreBtn:hover {
+  transform: scale(1.2);
+}
 
 
     #cookieGame h2 {
@@ -255,16 +299,41 @@
   margin: 0 auto;
   opacity: 0.9;
 }
+.tooltip-text {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#topBar:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
 
 
   </style>
 </head>
 <body>
- <div class="top-bar">
-    <img src="hearticon.png" alt="Coin">
-    <span class="coin-count" id="coinDisplay">10</span>
-    <button class="plus-button" onclick="alert('Earn coins by choosing a cookie.')">+</button>
+<div id="topBar">
+  <span id="tooltip" class="tooltip-text">Earn coins by choosing a cookie!</span>
+  <div class="coin-container">
+    <img src="blowfish.png" alt="Coin" class="coin-icon">
+    <span id="coinDisplay">10</span>
+    <button id="earnMoreBtn">+</button>
   </div>
+</div>
+
  <div id="cookieGame">
   <h2>Pick a Cookie</h2>
   <div id="countdown">Time left: 30s</div>
@@ -289,11 +358,6 @@
   <audio id="flipSound" src="click.mp3"></audio>
 
  <script>
-    let coinCount = 10;
-    const coinDisplay = document.getElementById('coinDisplay');
-    function updateCoinDisplay() {
-      coinDisplay.textContent = coinCount;
-    }
   const items = [
     { name: 'Mika', rarity: '4', image: 'images/sakura.png' },
     { name: 'Shoya', rarity: '4', image: 'images/luna.png' },
@@ -311,7 +375,7 @@
     { name: 'Andrew', rarity: 'secret', image: 'andrew.png' }
   ];
 
-  let coinCount = 0;
+  let coinCount = 10;
   const COOKIE_REWARDS = [1, 1, 5, 5, 5, 10];
   let cookiesClickable = true;
   let countdown = 5;
@@ -347,7 +411,7 @@
         label.style.display = 'block';
         coinCount += reward;
         updateCoinDisplay();
-
+});
         [...cookieGrid.children].forEach(c => {
           const l = c.querySelector('.reward');
           l.style.display = 'block';
@@ -361,6 +425,8 @@
             clearInterval(countdownInterval);
             cookiesClickable = true;
             createCookies();
+            
+});
           }
         }, 1000);
       });
