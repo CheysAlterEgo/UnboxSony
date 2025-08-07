@@ -4,13 +4,24 @@
   <meta charset="UTF-8" />
   <title>Soyul's Secret Notes</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Schoolbell&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+  
   <style>
     * {
       box-sizing: border-box;
     }
 
     body {
-      font-family: 'Quicksand', 'Comic Sans MS', cursive;
+    
+  font-family: "Schoolbell", cursive;
+  font-weight: 400;
+  font-style: normal;
       background: #fff0f5;
       padding: 40px;
       color: #5e4b4b;
@@ -70,6 +81,9 @@
       border-radius: 10px;
       background: #fff;
       color: #5e4b4b;
+        font-family: "Indie Flower", cursive;
+  font-weight: 400;
+  font-style: normal;
     }
 
     .cipher {
@@ -203,42 +217,30 @@
   margin: 20px auto;
   width: 95vw;
   max-width: 800px;
-  padding: 20px 15px;
-  
-  background: #fdf6e3; /* soft warm off-white */
-  
-  /* subtle paper texture with noise */
-  background-image:
-    radial-gradient(circle at 10% 20%, rgba(0,0,0,0.02) 1px, transparent 1.5px),
-    radial-gradient(circle at 80% 80%, rgba(0,0,0,0.02) 1px, transparent 1.5px);
-  background-size: 40px 40px;
-  
-  /* rough edges with box shadow and border */
-  border: 1.5px solid #d1c7b7;
-  border-radius: 8px;
+  padding: 20px;
+
+  background: #fefcf9; /* More paperlike tone */
+  border: 1px solid #d2c6aa; /* Slight outline like old paper */
+  border-radius: 6px;
+
   box-shadow:
-    inset 2px 2px 5px rgba(255, 255, 255, 0.8),
-    4px 6px 12px rgba(0, 0, 0, 0.15);
-  
-  /* add a very subtle skew for casual look */
-  transform: rotate(-0.5deg);
-  
-  /* optional: add a faint paper crease */
-  position: relative;
+    -5px 5px 10px rgba(0,0,0,0.1),
+    5px -5px 10px rgba(0,0,0,0.05),
+    inset 0 0 10px rgba(0,0,0,0.02); /* Adds slightly crumpled depth */
+
+  font-family: 'Courier New', Courier, monospace; /* Optional: old typewriter feel */
+
+  /* Optional scrap edge look */
+  clip-path: polygon(
+    0% 2%, 2% 0%, 98% 1%, 100% 3%,
+    99% 97%, 97% 100%, 3% 99%, 0% 97%
+  );
+
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 19px, #ece5d8 20px); /* faux notebook lines */
+  background-size: 100% 20px;
 }
 
-#cryptogram::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  width: 80%;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(0,0,0,0.04), transparent);
-  transform: translateY(-50%) rotate(-2deg);
-  pointer-events: none;
-  user-select: none;
-}
 
 
   </style>
