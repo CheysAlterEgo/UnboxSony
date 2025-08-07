@@ -245,12 +245,13 @@
     <div class="key-row" id="key-row"></div>
   </div>
 
-  <script>
-    // Modal logic
-    function closeIntro() {
-      document.getElementById("introModal").style.display = "none";
-    }
-const sentences = {
+<script>
+  // Modal logic
+  function closeIntro() {
+    document.getElementById("introModal").style.display = "none";
+  }
+
+  const sentences = {
   easy: [
     "STOP LOOKING AT THIS NOTE",
     "VEX IS SCARY BUT CUTE DONT TELL HER I SAID THAT",
@@ -391,182 +392,181 @@ const sentences = {
   ]
 };
 
-    let original = "";
-    let encrypted = "";
-    let mapping = {};
-    let revealed = {};
+  let original = "";
+  let encrypted = "";
+  let mapping = {};
+  let revealed = {};
 
-    const video = document.getElementById("writingAnimation");
+  const video = document.getElementById("writingAnimation");
 
-    function playWithAnimation(difficulty) {
-      // Hide puzzle parts first
-      document.getElementById("cryptogram").style.display = "none";
-      document.getElementById("result").style.display = "none";
-      document.getElementById("key-panel").style.display = "none";
+  function playWithAnimation(difficulty) {
+    document.getElementById("cryptogram").style.display = "none";
+    document.getElementById("result").style.display = "none";
+    document.getElementById("key-panel").style.display = "none";
 
-      // Prepare video
-      video.style.display = "block";
-      video.currentTime = 0;
-      video.play();
+    video.style.display = "block";
+    video.currentTime = 0;
+    video.play();
 
-      // Once the video ends, show the puzzle
-      video.onended = () => {
-        video.style.display = "none";
-        document.getElementById("cryptogram").style.display = "flex";
-        document.getElementById("result").style.display = "block";
-        document.getElementById("key-panel").style.display = "block";
-        startGame(difficulty);
-      };
+    video.onended = () => {
+      video.style.display = "none";
+      document.getElementById("cryptogram").style.display = "flex";
+      document.getElementById("result").style.display = "block";
+      document.getElementById("key-panel").style.display = "block";
+      startGame(difficulty);
+    };
+  }
+
+  function getRandomSentence(difficulty) {
+    const options = sentences[difficulty];
+    return options[Math.floor(Math.random() * options.length)];
+  }
+
+  function shuffleAlphabet() {
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+    for (let i = alphabet.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [alphabet[i], alphabet[j]] = [alphabet[j], alphabet[i]];
+    }
+    return alphabet;
+  }
+
+  function startGame(difficulty) {
+    original = getRandomSentence(difficulty).toUpperCase();
+    mapping = {};
+    revealed = {};
+
+    const shuffled = shuffleAlphabet();
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+    let idx = 0;
+
+    for (let char of alphabet) {
+      mapping[char] = shuffled[idx++];
     }
 
-    function getRandomSentence(difficulty) {
-      const options = sentences[difficulty];
-      return options[Math.floor(Math.random() * options.length)];
+    encrypted = original.split("").map(c => {
+      return /[A-Z]/.test(c) ? mapping[c] : c;
+    }).join("");
+
+    let revealCount;
+    switch (difficulty) {
+      case "easy": revealCount = 5; break;
+      case "medium": revealCount = 3; break;
+      case "hard": revealCount = 2; break;
+      case "extreme": revealCount = 0; break;
+      default: revealCount = 0;
     }
 
-    function shuffleAlphabet() {
-      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-      for (let i = alphabet.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [alphabet[i], alphabet[j]] = [alphabet[j], alphabet[i]];
-      }
-      return alphabet;
-    }
+    const uniqueLetters = [...new Set(original.replace(/[^A-Z]/g, ''))];
+    const toReveal = uniqueLetters.sort(() => 0.5 - Math.random()).slice(0, revealCount);
+    toReveal.forEach(letter => {
+      revealed[mapping[letter]] = letter;
+    });
 
-    function startGame(difficulty) {
-      original = getRandomSentence(difficulty).toUpperCase();
-      mapping = {};
-      revealed = {};
+    renderCryptogram();
+    renderKeyTester();
+  }
 
-      const shuffled = shuffleAlphabet();
-      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-      let idx = 0;
+  function renderCryptogram() {
+    const container = document.getElementById("cryptogram");
+    container.innerHTML = "";
 
-      for (let char of alphabet) {
-        mapping[char] = shuffled[idx++];
-      }
+    for (let i = 0; i < encrypted.length; i++) {
+      const cipherChar = encrypted[i];
+      const box = document.createElement("div");
+      box.className = "letter-box";
+      box.style.setProperty('--i', i);
 
-      encrypted = original.split("").map(c => {
-        return /[A-Z]/.test(c) ? mapping[c] : c;
-      }).join("");
+      if (!/[A-Z]/.test(cipherChar)) {
+        box.innerHTML = `<div style="width: 40px; height: 40px; font-size: 24px;">${cipherChar}</div>`;
+      } else {
+        const input = document.createElement("input");
+        input.maxLength = 1;
+        input.dataset.index = i;
+        input.style.textTransform = "uppercase";  // Make letters display uppercase
 
-      let revealCount;
-      switch (difficulty) {
-        case "easy": revealCount = 5; break;
-        case "medium": revealCount = 3; break;
-        case "hard": revealCount = 2; break;
-        case "extreme": revealCount = 0; break;
-      }
-
-      const uniqueLetters = [...new Set(original.replace(/[^A-Z]/g, ''))];
-      const toReveal = uniqueLetters.sort(() => 0.5 - Math.random()).slice(0, revealCount);
-      toReveal.forEach(letter => {
-        revealed[mapping[letter]] = letter;
-      });
-
-      renderCryptogram();
-      renderKeyTester();
-    }
-
-    function renderCryptogram() {
-      const container = document.getElementById("cryptogram");
-      container.innerHTML = "";
-
-      for (let i = 0; i < encrypted.length; i++) {
-        const cipherChar = encrypted[i];
-        const box = document.createElement("div");
-        box.className = "letter-box";
-        box.style.setProperty('--i', i);
-
-        if (!/[A-Z]/.test(cipherChar)) {
-          box.innerHTML = `<div style="width: 40px; height: 40px; font-size: 24px;">${cipherChar}</div>`;
-        } else {
-          const input = document.createElement("input");
-          input.maxLength = 1;
-          input.dataset.index = i;
-
-          if (revealed[cipherChar]) {
-            input.value = revealed[cipherChar];
-            input.disabled = true;
-          }
-
-          input.addEventListener("input", () => checkWin());
-
-          const cipherLabel = document.createElement("div");
-          cipherLabel.className = "cipher";
-          cipherLabel.textContent = cipherChar;
-
-          box.appendChild(input);
-          box.appendChild(cipherLabel);
+        if (revealed[cipherChar]) {
+          input.value = revealed[cipherChar];
+          input.disabled = true;
         }
 
-        container.appendChild(box);
-      }
-    }
-
-    function checkWin() {
-      const inputs = document.querySelectorAll("#cryptogram input");
-      let guess = "";
-
-      inputs.forEach((input) => {
-        guess += input.value.toUpperCase() || " ";
-      });
-
-      const cleanedGuess = guess.replace(/\s+/g, '');
-      const cleanedOriginal = original.replace(/\s+/g, '');
-
-      document.getElementById("result").textContent =
-        cleanedGuess === cleanedOriginal ? "🎉 You solved Soyul's note!" : "";
-    }
-
-    function renderKeyTester() {
-      const row = document.getElementById("key-row");
-      row.innerHTML = "";
-
-      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-
-      alphabet.forEach(cipherLetter => {
-        const box = document.createElement("div");
-        box.className = "key-box";
-
-        const input = document.createElement("input");
-input.maxLength = 1;
-input.dataset.index = i;
-input.style.textTransform = "uppercase"; // Make letters show as uppercase
-
-if (revealed[cipherChar]) {
-  input.value = revealed[cipherChar];
-  input.disabled = true;
-}
-
-// Force uppercase on input and then check win
-input.addEventListener("input", (e) => {
-  e.target.value = e.target.value.toUpperCase();
-  checkWin();
-});
-
-        const label = document.createElement("div");
-        label.className = "key-label";
-        label.textContent = cipherLetter;
-
-        input.addEventListener("input", () => {
-          const guess = input.value.toUpperCase();
-          const correct = Object.keys(mapping).find(k => mapping[k] === cipherLetter);
-          if (guess === correct) {
-            input.style.backgroundColor = "#aaffaa";
-            input.style.color = "#000";
-          } else {
-            input.style.backgroundColor = "#ffaaaa";
-            input.style.color = "#000";
-          }
+        // Force uppercase on input and check win condition
+        input.addEventListener("input", (e) => {
+          e.target.value = e.target.value.toUpperCase();
+          checkWin();
         });
 
+        const cipherLabel = document.createElement("div");
+        cipherLabel.className = "cipher";
+        cipherLabel.textContent = cipherChar;
+
         box.appendChild(input);
-        box.appendChild(label);
-        row.appendChild(box);
-      });
+        box.appendChild(cipherLabel);
+      }
+
+      container.appendChild(box);
     }
-   
-  </script>
+  }
+
+  function checkWin() {
+    const inputs = document.querySelectorAll("#cryptogram input");
+    let guess = "";
+
+    inputs.forEach((input) => {
+      guess += input.value.toUpperCase() || " ";
+    });
+
+    const cleanedGuess = guess.replace(/\s+/g, '');
+    const cleanedOriginal = original.replace(/\s+/g, '');
+
+    document.getElementById("result").textContent =
+      cleanedGuess === cleanedOriginal ? "🎉 You solved Soyul's note!" : "";
+  }
+
+  function renderKeyTester() {
+    const row = document.getElementById("key-row");
+    row.innerHTML = "";
+
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+
+    alphabet.forEach(cipherLetter => {
+      const box = document.createElement("div");
+      box.className = "key-box";
+
+      const input = document.createElement("input");
+      input.maxLength = 1;
+      input.style.textTransform = "uppercase"; // Force uppercase display on input
+
+      // Force uppercase and check win on input
+      input.addEventListener("input", (e) => {
+        e.target.value = e.target.value.toUpperCase();
+        checkWin();
+      });
+
+      const label = document.createElement("div");
+      label.className = "key-label";
+      label.textContent = cipherLetter;
+
+      // Color input box based on correctness of guess
+      input.addEventListener("input", () => {
+        const guess = input.value.toUpperCase();
+        // Find original letter that maps to this cipherLetter
+        const correct = Object.keys(mapping).find(k => mapping[k] === cipherLetter);
+        if (guess === correct) {
+          input.style.backgroundColor = "#aaffaa";
+          input.style.color = "#000";
+        } else {
+          input.style.backgroundColor = "#ffaaaa";
+          input.style.color = "#000";
+        }
+      });
+
+      box.appendChild(input);
+      box.appendChild(label);
+      row.appendChild(box);
+    });
+  }
+</script>
+
 </body>
 </html>
