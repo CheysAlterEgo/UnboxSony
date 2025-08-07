@@ -97,6 +97,7 @@
       font-weight: bold;
       font-size: 22px;
       color: #88e0b0;
+      font-family: Verdana, sans-serif;
     }
 
     #key-panel {
@@ -263,10 +264,10 @@
   <h1>📝 Soyul's Secret Notes</h1>
 
   <div class="difficulty-buttons">
-    <button onclick="playWithAnimation('easy')">Easy</button>
-    <button onclick="playWithAnimation('medium')">Medium</button>
-    <button onclick="playWithAnimation('hard')">Hard</button>
-    <button onclick="playWithAnimation('extreme')">Extreme</button>
+    <button onclick="playWithAnimation('easy')">Easy ♡</button>
+    <button onclick="playWithAnimation('medium')">Medium ♡</button>
+    <button onclick="playWithAnimation('hard')">Hard ♡</button>
+    <button onclick="playWithAnimation('extreme')">Extreme ♡</button>
   </div>
 
   <video id="writingAnimation" src="soyulwriting.MOV" autoplay></video>
@@ -554,7 +555,7 @@
     const cleanedOriginal = original.replace(/\s+/g, '');
 
     document.getElementById("result").textContent =
-      cleanedGuess === cleanedOriginal ? "🎉 You solved Soyul's note!" : "";
+      cleanedGuess === cleanedOriginal ? "You solved Soyul's note!" : "";
   }
 
   function renderKeyTester() {
