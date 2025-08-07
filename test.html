@@ -132,15 +132,16 @@
       }
     }
 
-    #writingAnimation {
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      width: 200px;
-      border-radius: 10px;
-      display: none; /* Hidden by default */
-      pointer-events: none; /* Don't let user interact with it */
-    }
+   #writingAnimation {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 400px;
+  border-radius: 10px;
+  display: none;
+  pointer-events: none;
+}
+
   </style>
 </head>
 <body>
@@ -155,7 +156,8 @@
   </div>
 
   <!-- 🔽 Video will play here when triggered -->
-  <video id="writingAnimation" src="soyulwriting.MOV" muted></video>
+ <video id="writingAnimation" src="soyulwriting.MOV" autoplay></video>
+
 
   <div id="cryptogram"></div>
   <div id="result"></div>
