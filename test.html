@@ -201,8 +201,8 @@
   max-height: 60vh; /* Limits height to 60% of viewport */
   overflow-y: auto; /* Scroll inside if too tall */
   margin: 20px auto;
-  width: 90vw;
-  max-width: 700px;
+   width: 95vw;      /* slightly wider */
+  max-width: 800px;
   padding: 10px;
   background: #FAF0DC;
   border-radius: 12px;
@@ -530,8 +530,20 @@ const sentences = {
         box.className = "key-box";
 
         const input = document.createElement("input");
-        input.maxLength = 1;
-        input.placeholder = "-";
+input.maxLength = 1;
+input.dataset.index = i;
+input.style.textTransform = "uppercase"; // Make letters show as uppercase
+
+if (revealed[cipherChar]) {
+  input.value = revealed[cipherChar];
+  input.disabled = true;
+}
+
+// Force uppercase on input and then check win
+input.addEventListener("input", (e) => {
+  e.target.value = e.target.value.toUpperCase();
+  checkWin();
+});
 
         const label = document.createElement("div");
         label.className = "key-label";
