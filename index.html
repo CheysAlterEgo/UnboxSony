@@ -1,536 +1,520 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Silly Simulator</title>
-  <link rel="icon" type="image/png" href="hearticon.png">
-  <style>
-     .card.glow-blue {
-  box-shadow: 0 0 20px 5px rgba(63, 142, 252, 0.8);
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Archive</title>
+    <link rel="icon" type="image/png" href="hearticon.png">
+<style>
+  /* Fonts & base */
+  @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+  
+  body {
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(to bottom right, #d0e7ff, #f0f8ff);
+    color: #05386b;
+    min-height: 100vh;
+    padding: 40px 30px;
+    box-sizing: border-box;
+  }
+
+  h1, h2 {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  h2 {
+    color: #004080;
+    margin-top: 40px;
+    border-bottom: 2px solid #aaccee;
+    padding-bottom: 6px;
+  }
+
+  /* Container for each Part */
+  .part-section {
+    max-width: 1500px;
+    margin: 0 auto 60px auto;
+  }
+
+  /* Rarity group container */
+  .rarity-group {
+    margin-top: 20px;
+  }
+
+  .rarity-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #2274a5;
+    border-left: 5px solid #90caf9;
+    padding-left: 10px;
+  }
+
+  /* Cards container */
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+  }
+
+  /* Card basics */
+  .card {
+    background: #ffffffdd;
+    width: 180px;
+    height: 180px;
+    perspective: 1000px;
+    border-radius: 16px;
+    box-shadow: 0 6px 12px rgba(0, 56, 120, 0.15);
+    cursor: pointer;
+  }
+
+  /* Inner card for flipping */
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    border-radius: 16px;
+  }
+
+  /* Flipped state */
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* Front and back sides */
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+
+  /* Front side: name on a styled card back */
+  .card-front {
+    background: linear-gradient(135deg, #a0c8ff, #4a8fed);
+    color: white;
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-align: center;
+    box-shadow:
+      inset 0 4px 10px rgba(255,255,255,0.5),
+      0 6px 8px rgba(0, 70, 160, 0.3);
+    user-select: none;
+  }
+
+  /* Back side: character image */
+  .card-back {
+     background: white;
+    transform: rotateY(180deg);
+    box-shadow: inset 0 0 30px #a0c8ff;
+  }
+
+  .card-back img {
+   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  }
+
+  /* Special Vex card */
+.vex-card .card-back {
+  padding: 0;
+  overflow: hidden;
 }
 
-.card.glow-yellow {
-  box-shadow: 0 0 20px 5px rgba(249, 204, 47, 0.8);
+.vex-card .vex-video,
+.vex-card .vex-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
 }
 
-.card.glow-purple {
-  box-shadow: 0 0 20px 5px rgba(168, 95, 240, 0.8);
-}
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 0;
-      padding: 0;
-    }
-
-    h1 {
-      margin-top: 30px;
-      text-align: center;
-    }
-
-    .main-img {
-      width: 300px;
-      display: block;
-      margin: 20px auto;
-    }
-
-    .button-container {
-      text-align: center;
-      margin: 20px;
-    }
-
-    button {
-      margin: 0 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .boxes {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .card {
-      width: 280px;
-      height: 280px;
-      perspective: 1000px;
-       position: relative;
-  z-index: 1;
-    }
-
-    .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .card.flipped .card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 10px;
-    }
-
-    .card-front {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .card-back {
-      background: white;
-      transform: rotateY(180deg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-   .card-back img {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-  position: relative;
-  z-index: 1;
-}
-   .card-back img {
-  transition: transform 0.3s ease;
+.vex-card .vex-image {
+  display: none;
 }
 
-.card:hover .card-back img {
-  transform: scale(1.2);
-  z-index: 1000;
-}
+  /* Rarity coloring for front backgrounds */
+  .rarity-4star .card-front {
+    background: linear-gradient(135deg, #8ab6ff, #467fdb);
+  }
 
-    .blue { background-color: #3f8efc; }
-    .yellow { background-color: #f9cc2f; }
-    .purple { background-color: #a85ff0; }
+  .rarity-5star .card-front {
+    background: linear-gradient(135deg, #ffcb6e, #f4a261);
+  }
 
-    .loading {
-      font-size: 20px;
-      margin-top: 20px;
-      text-align: center;
-      animation: pulse 1s infinite;
-      color: #555;
-    }
+  .rarity-secret .card-front {
+    background: linear-gradient(135deg, #d39bf6, #a765c9);
+  }
 
-    #collectionStatus {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: white;
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 5px;
-      text-align: left;
-      width: 220px;
-    }
-
-    .uncollected {
-      color: #aaa;
-    }
-
-    .progress-bar {
-      height: 10px;
-      background: #ddd;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: #4caf50;
-      transition: width 0.5s ease-in-out;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 0.3; }
-      50% { opacity: 1; }
-      100% { opacity: 0.3; }
-    }
-
-    .animate-glow {
-      animation: glowBase 1s ease forwards;
-    }
-
-    @keyframes glowBase {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-
-    #cookieGame {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  background: transparent; /* was #fff6ec */
-  border-radius: 0;         /* removed rounding */
-  box-shadow: none;         /* removed shadow */
-  padding: 0;               /* removed padding */
-  width: auto;              /* removed fixed width */
-}
-#topBar {
-  position: fixed;
-  top: 10px;
-  left: 75%;
-  transform: translateX(-50%);
-  background-color: #ffffff;
-  border-radius: 20px;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  z-index: 1000;
-  font-family: Arial, sans-serif;
-}
-
-.coin-container {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.coin-icon {
-  width: 24px;
-  height: 24px;
-}
-
-#coinDisplay {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-#earnMoreBtn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #3f8efc;
-  font-weight: bold;
-  transition: transform 0.2s;
-}
-
-#earnMoreBtn:hover {
-  transform: scale(1.2);
-}
-
-
-    #cookieGame h2 {
-      margin: 10px 0;
-      font-size: 18px;
-    }
-
- #cookieGrid {
-      display: grid;
-      grid-template-columns: repeat(3, 100px);
-      gap: 5px;
+  /* Responsive */
+  @media (max-width: 480px) {
+    .cards {
       justify-content: center;
     }
+  }
 
-    .cookie {
-  width: 100px;
-  height: 100px;
-  background-image: url('cookie.png'); /* updated */
-  background-size: cover;
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.3s;
-}
-
-
-    .cookie.clicked {
-      box-shadow: 0 0 15px 5px #f5b942;
-      transform: scale(1.05);
-    }
-
-    .cookie .reward {
-      position: absolute;
-      top: 35%;
-      left: 0;
-      right: 0;
-      color: black;
-      font-weight: bold;
-      font-size: 20px;
-      display: none;
-      text-align: center;
-    }
-
-    .cookie.revealed .reward {
-      display: block;
-    }
-
-    #notEnough {
-      color: red;
-      font-weight: bold;
-      margin-top: 10px;
-      display: none;
-    }
-    #trayContainer {
-  position: absolute;
-    top: 190px;
-  width: fit-content;
-  margin: -40px auto 0 auto; /* pulls it closer under the cookies */
-  pointer-events: none; /* allows clicking cookies through tray */
-  z-index: -1; /* stays behind the cookies */
-}
-
-#bigTray {
-  width: 85%;  /* slightly smaller tray */
-  max-width: 450px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  opacity: 0.9;
-}
-.tooltip-text {
-  visibility: hidden;
-  background-color: #333;
-  color: #fff;
-  font-size: 12px;
-  padding: 6px 8px;
-  border-radius: 4px;
-  position: absolute;
-  top: 45px;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  z-index: 999;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-#topBar:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
-}
-
-
-  </style>
+</style>
 </head>
 <body>
-<div id="topBar">
-  <span id="tooltip" class="tooltip-text">Earn coins by choosing a cookie!</span>
-  <div class="coin-container">
-    <img src="blowfish.png" alt="Coin" class="coin-icon">
-    <span id="coinDisplay">10</span>
-    <button id="earnMoreBtn">+</button>
+
+  <h1>Archive</h1>
+
+  <!-- Part 1 -->
+  <section class="part-section" id="part1">
+    <h2>Part 1</h2>
+
+    <div class="rarity-group rarity-4star">
+      <div class="rarity-title">4-Stars ᯓ★</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Mika</div>
+            <div class="card-back"><img src="mikaup.jpg" alt="Mika"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Shoya</div>
+            <div class="card-back"><img src="shoyaup.jpg" alt="Shoya"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Melanie</div>
+            <div class="card-back"><img src="melone.jpg" alt="Melanie"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Damain</div>
+            <div class="card-back"><img src="damup.jpg" alt="Damian"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Matt</div>
+            <div class="card-back"><img src="mattup.jpg" alt="Matt"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Susurri</div>
+            <div class="card-back"><img src="susup.jpg" alt="Susurri"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Stella</div>
+            <div class="card-back"><img src="stellaup.PNG" alt="Stella"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rarity-group rarity-5star">
+      <div class="rarity-title">5-Stars ᯓ★</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Luna</div>
+            <div class="card-back"><img src="lunaup.jpg" alt="Luna"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Aiko</div>
+            <div class="card-back"><img src="aikoup.jpg" alt="Aiko"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Yumiko</div>
+            <div class="card-back"><img src="yumiup.jpg" alt="Yumiko"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Hyun</div>
+            <div class="card-back"><img src="hyunup.jpg" alt="Hyun"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Moon</div>
+            <div class="card-back"><img src="moon.png" alt="Moon"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Vivian</div>
+            <div class="card-back"><img src="vivian.png" alt="Vivian"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rarity-group rarity-secret">
+      <div class="rarity-title">Secret ᯓ★</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-inner">
+            <div class="card-front">Andrew</div>
+            <div class="card-back"><img src="andrewup.PNG" alt="Andrew"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Part 2 -->
+  <section class="part-section" id="part2">
+    <h2>Animara</h2>
+
+    <div class="rarity-group rarity-4star">
+      <div class="rarity-title">4-Stars ᯓ★</div>
+      <div class="cards">
+        <div class="card"><div class="card-inner"><div class="card-front">Stella</div><div class="card-back"><img src="stellap2.png" alt="Stella"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Nikki</div><div class="card-back"><img src="nikki.PNG" alt="Nikki"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Jamie</div><div class="card-back"><img src="jamie.png" alt="Jamie"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">The Twins</div><div class="card-back"><img src="twins.png" alt="The Twins"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Soyul</div><div class="card-back"><img src="soyulp2.PNG" alt="Soyul"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Damain</div><div class="card-back"><img src="damianp2.png" alt="Damian"></div></div></div>
+      </div>
+    </div>
+
+    <div class="rarity-group rarity-5star">
+      <div class="rarity-title">5-Stars ᯓ★</div>
+      <div class="cards">
+        <div class="card"><div class="card-inner"><div class="card-front">Aiko</div><div class="card-back"><img src="aikop2.png" alt="Aiko"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Luna</div><div class="card-back"><img src="lunap2.png" alt="Luna"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Vex</div><div class="card-back"><img src="vexp2.png" alt="Vex"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Yumiko</div><div class="card-back"><img src="yumikop2.PNG" alt="Yumiko"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Arma</div><div class="card-back"><img src="arma.png" alt="Arma"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Melanie</div><div class="card-back"><img src="melanie.png" alt="Melanie"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Vivian</div><div class="card-back"><img src="vivianp2.png" alt="Vivian"></div></div></div>
+      </div>
+    </div>
+
+    <div class="rarity-group rarity-secret">
+      <div class="rarity-title">Secrets ᯓ★</div>
+      <div class="cards">
+        <div class="card"><div class="card-inner"><div class="card-front">Yunsu</div><div class="card-back"><img src="yunsu.png" alt="Yunsu"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Minjung</div><div class="card-back"><img src="minjung.png" alt="Minjung"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Part 3 -->
+  <section class="part-section" id="part3">
+    <h2>Animara's Creation</h2>
+
+    <div class="rarity-group rarity-4star">
+      <div class="rarity-title">4-Stars ᯓ★</div>
+      <div class="cards">
+        <div class="card"><div class="card-inner"><div class="card-front">Miran</div><div class="card-back"><img src="myrrin3.png" alt="Miran"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Viola</div><div class="card-back"><img src="upviola.jpg" alt="Viola"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Soyul</div><div class="card-back"><img src="soyul3.PNG" alt="Soyul"></div></div></div>
+      </div>
+    </div>
+
+    <div class="rarity-group rarity-5star">
+      <div class="rarity-title">5-Stars ᯓ★</div>
+      <div class="cards">
+          <div class="card"><div class="card-inner"><div class="card-front">Celestino De Luca</div><div class="card-back"><img src="cel3.PNG" alt="Celestino"></div></div></div>
+          <div class="card"><div class="card-inner"><div class="card-front">Anaka</div><div class="card-back"><img src="anaka3.PNG" alt="Anakka"></div></div></div>
+           <div class="card"><div class="card-inner"><div class="card-front">Deviora</div><div class="card-back"><img src="deviora.png" alt="Deviora"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Vex</div><div class="card-back"><img src="vex3.png" alt="Vex"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Kairo</div><div class="card-back"><img src="kairo3.jpg" alt="Cairo"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Yunsu</div><div class="card-back"><img src="yunsu3.png" alt="Hyunsoo"></div></div></div>
+      </div>
+    </div>
+
+    <div class="rarity-group rarity-secret">
+      <div class="rarity-title">Secret ᯓ★</div>
+      <div class="cards">
+        <div class="card"><div class="card-inner"><div class="card-front">Alina</div><div class="card-back"><img src="alina3.png" alt="Alina"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+
+     <section class="part-section" id="part4">
+    <h2>Vex's Experiment</h2>
+
+    <div class="rarity-group rarity-5star">
+      <div class="rarity-title">5-Stars ᯓ★</div>
+      <div class="cards">
+          <div class="card"><div class="card-inner"><div class="card-front">Chico</div><div class="card-back"><img src="chico.jpg" alt="Chico"></div></div></div>
+          <div class="card"><div class="card-inner"><div class="card-front">Naiomi</div><div class="card-back"><img src="nainai.PNG" alt="Naiomi"></div></div></div>
+           <div class="card"><div class="card-inner"><div class="card-front">Marina</div><div class="card-back"><img src="marinaup.jpg" alt="Marina"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Yumiko</div><div class="card-back"><img src="yumiko4.jpg" alt="Yumiko"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Faris</div><div class="card-back"><img src="faris.jpg" alt="Faris"></div></div></div>
+           <div class="card"><div class="card-inner"><div class="card-front">Trixie</div><div class="card-back"><img src="arctrixie.PNG" alt="Trixie"></div></div></div>
+    <div class="card"><div class="card-inner"><div class="card-front">Minsu</div><div class="card-back"><img src="minsu.jpg" alt="Minsu"></div></div></div>
+       <div class="card"><div class="card-inner"><div class="card-front">Augis</div><div class="card-back"><img src="augis.PNG" alt="Augis"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Rin</div><div class="card-back"><img src="rin.PNG" alt="Rin"></div></div></div>
+      </div>
+    </div>
+
+    <div class="rarity-group rarity-secret">
+      <div class="rarity-title">Secret ᯓ★</div>
+      <div class="cards">
+        <div class="card"><div class="card-inner"><div class="card-front">Yunsu</div><div class="card-back"><img src="cook.jpg" alt="Yunsu"></div></div></div>
+           <div class="card"><div class="card-inner"><div class="card-front">Vex</div><div class="card-back"><img src="vexpart4.jpg" alt="Vex"></div></div></div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+     <section class="part-section" id="part4">
+    <h2>Task Force</h2>
+
+    <div class="rarity-group rarity-5star">
+      <div class="rarity-title">5-Stars ᯓ★</div>
+      <div class="cards">
+          <div class="card"><div class="card-inner"><div class="card-front">Trixie</div><div class="card-back"><img src="bettercookie.png" alt="Trixie"></div></div></div>
+          <div class="card"><div class="card-inner"><div class="card-front">Zietia</div><div class="card-back"><img src="bettercookie.png" alt="Zietia"></div></div></div>
+           <div class="card"><div class="card-inner"><div class="card-front">Suyun</div><div class="card-back"><img src="bettercookie.png" alt="Suyun"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Yumiko</div><div class="card-back"><img src="bettercookie.png" alt="Yumiko"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">???</div><div class="card-back"><img src="bettercookie.png" alt="???"></div></div></div>
+      </div>
+    </div>
+
+    <div class="rarity-group rarity-secret">
+      <div class="rarity-title">Secret ᯓ★</div>
+      <div class="cards">
+
+
+         <div class="card vex-card">
+  <div class="card-inner">
+    <div class="card-front">Vex</div>
+    <div class="card-back">
+      <video class="vex-video" playsinline>
+        <source src="taskvex.mov" type="video/quicktime">
+      </video>
+      <img class="vex-image" src="tastvexpic.JPG" alt="Vex">
+    </div>
   </div>
 </div>
 
- <div id="cookieGame">
-  <h2>Pick a Cookie</h2>
-   <a href="testfan.html">Click</a>
-  <div id="countdown">Time left: 30s</div>
-  <div id="cookieGrid"></div>
-   <div id="trayContainer">
-    <img src="tray.png" alt="Tray" id="bigTray">
-  </div>
-</div>
+       <div class="card"><div class="card-inner"><div class="card-front">Kairo</div><div class="card-back"><img src="bettercookie.png" alt="Kairo"></div></div></div>
+          
+        
+        <div class="card"><div class="card-inner"><div class="card-front">Viola</div><div class="card-back"><img src="bettercookie.png" alt="Viola"></div></div></div>
+          <div class="card"><div class="card-inner"><div class="card-front">Yunsu</div><div class="card-back"><img src="bettercookie.png" alt="Yunsu"></div></div></div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  
+<section class="part-section" id="theGods">
 
-  <h1 id="title">Series Story Part 1</h1>
-  <img src="https://via.placeholder.com/300x200" alt="Main" class="main-img" />
-  <div class="button-container">
-    <button onclick="doPull(1)">1 Pull</button>
-    <button onclick="doPull(5)">5 Pull</button>
-    <div id="notEnough">You don't have enough coins!</div>
-  </div>
+ <h2>The Gods</h2>
 
-  <div id="loading" class="loading" style="display: none;">Loading...</div>
-  <div class="boxes" id="resultContainer"></div>
-  <div id="collectionStatus"></div>
+    <div class="rarity-group rarity-5star">
+      <div class="rarity-title">ᯓ★</div>
+      <div class="cards">
 
-  <audio id="flipSound" src="click.mp3"></audio>
 
- <script>
-  const items = [
-    { name: 'Mika', rarity: '4', image: 'images/sakura.png' },
-    { name: 'Shoya', rarity: '4', image: 'images/luna.png' },
-    { name: 'Melanie', rarity: '4', image: 'images/kai.png' },
-    { name: 'Damian', rarity: '4', image: 'images/mira.png' },
-    { name: 'Matt', rarity: '4', image: 'images/zane.png' },
-    { name: 'Susurri', rarity: '4', image: 'images/nova.png' },
-    { name: 'Stella', rarity: '4', image: 'stella.png' },
-    { name: 'Yumiko', rarity: '5', image: 'yum.png' },
-    { name: 'Aiko', rarity: '5', image: 'aiko.png' },
-    { name: 'Luna', rarity: '5', image: 'images/leo.png' },
-    { name: 'Hyun', rarity: '5', image: 'images/iris.png' },
-    { name: 'Moon', rarity: '5', image: 'images/vera.png' },
-    { name: 'Vivian', rarity: '5', image: 'images/elio.png' },
-    { name: 'Andrew', rarity: 'secret', image: 'andrew.png' }
-  ];
+         
+     
+        <div class="card"><div class="card-inner"><div class="card-front">VEX</div><div class="card-back"><img src="VEX.PNG" alt="Vexie"></div></div></div>
+          <div class="card"><div class="card-inner"><div class="card-front">Yunsu</div><div class="card-back"><img src="Yunsu.jpg" alt="Yunsu"></div></div></div>
+    <div class="card"><div class="card-inner"><div class="card-front">Yumiko</div><div class="card-back"><img src="yumig.jpg" alt=“Yumiko”></div></div></div> 
 
-  let coinCount = 10;
-  const COOKIE_REWARDS = [1, 1, 5, 5, 5, 10];
-  let cookiesClickable = true;
-  let countdown = 5;
-  let countdownInterval;
+     
+<div class="card"><div class="card-inner"><div class="card-front">Ignara</div><div class="card-back"><img src="ignara.PNG" alt="Anaka"></div></div></div>
 
-  const coinDisplay = document.getElementById('coinDisplay');
-  const cookieGrid = document.getElementById('cookieGrid');
-  const countdownDisplay = document.getElementById('countdown');
-  const notEnoughMsg = document.getElementById('notEnough');
+ <div class="card"><div class="card-inner"><div class="card-front">Nova</div><div class="card-back"><img src="nova.PNG" alt="Nova"></div></div></div>
+           <div class="card"><div class="card-inner"><div class="card-front">Elyndra</div><div class="card-back"><img src="Elyndra.jpg" alt="Elyndra"></div></div></div>
+        <div class="card"><div class="card-inner"><div class="card-front">Solathen</div><div class="card-back"><img src="solethen.jpg" alt="Solathen"></div></div></div>
+           <div class="card"><div class="card-inner"><div class="card-front">Varrion</div><div class="card-back"><img src="Varrion.PNG" alt="Varrion"></div></div></div>
+    <div class="card"><div class="card-inner"><div class="card-front">Seraphel</div><div class="card-back"><img src="Seraphel.PNG" alt="Seraphel"></div></div></div>
+       <div class="card"><div class="card-inner"><div class="card-front">Chromie</div><div class="card-back"><img src="Chronae.PNG" alt="Chronae"></div></div></div>
+      </div>
+    </div>
 
-  function updateCoinDisplay() {
-    coinDisplay.textContent = coinCount;
-  }
 
-  function createCookies() {
-    cookieGrid.innerHTML = '';
-    const shuffled = [...COOKIE_REWARDS].sort(() => Math.random() - 0.5);
+    
+  </section>
 
-    shuffled.forEach(reward => {
-      const div = document.createElement('div');
-      div.className = 'cookie';
-      
-      const label = document.createElement('div');
-      label.className = 'reward';
-      label.textContent = `+${reward}`;
-      div.appendChild(label);
-      cookieGrid.appendChild(div);
 
-      div.addEventListener('click', () => {
-        if (!cookiesClickable) return;
-        cookiesClickable = false;
-        div.classList.add('clicked');
-        label.style.display = 'block';
-        coinCount += reward;
-        updateCoinDisplay();
-});
-        [...cookieGrid.children].forEach(c => {
-          const l = c.querySelector('.reward');
-          l.style.display = 'block';
-        });
 
-        countdown = 30;
-        countdownInterval = setInterval(() => {
-          countdown--;
-          countdownDisplay.textContent = `Time left: ${countdown}s`;
-          if (countdown <= 0) {
-            clearInterval(countdownInterval);
-            cookiesClickable = true;
-            createCookies();
-            
-});
-          }
-        }, 1000);
+    
+<script>
+  document.querySelectorAll('.card').forEach(card => {
+
+    if (card.classList.contains('vex-card')) {
+
+      const video = card.querySelector('.vex-video');
+      const image = card.querySelector('.vex-image');
+
+      card.addEventListener('click', () => {
+
+        const isFlipped = card.classList.contains('flipped');
+
+        if (!isFlipped) {
+          // Flip the card
+          card.classList.add('flipped');
+
+          // Reset the video
+          video.currentTime = 0;
+          video.style.display = 'block';
+          image.style.display = 'none';
+
+          // Play the video
+          video.play();
+        } else {
+          // Flip back
+          card.classList.remove('flipped');
+
+          // Stop and reset the video
+          video.pause();
+          video.currentTime = 0;
+
+          // Reset the image for the next flip
+          video.style.display = 'block';
+          image.style.display = 'none';
+        }
       });
-    });
-  }
 
-  createCookies();
-  updateCoinDisplay();
+      // When the video finishes, show the image
+      video.addEventListener('ended', () => {
+        video.style.display = 'none';
+        image.style.display = 'block';
+      });
 
-  const collection = {};
-  items.forEach(item => collection[item.name] = 0);
+    } else {
 
-  function updateCollectionDisplay() {
-    const container = document.getElementById('collectionStatus');
-    let collectedCount = 0;
-    let content = '<strong>Collection Progress:</strong><ul style="list-style:none; padding:0;">';
+      // Normal cards keep their original behavior
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
 
-    items.forEach(item => {
-      const count = collection[item.name];
-      const owned = count > 0;
-      if (owned) collectedCount++;
-      content += `<li class="${owned ? '' : 'uncollected'}">${item.name}${count > 1 ? ' (' + count + ')' : ''}</li>`;
-    });
-
-    content += '</ul>';
-    const progressPercent = (collectedCount / items.length) * 100;
-    content += `<div class="progress-bar"><div class="progress-bar-fill" style="width:${progressPercent}%"></div></div>`;
-    container.innerHTML = content;
-  }
-
-  function getRandomItem() {
-    const roll = Math.random();
-    if (roll < 0.75) return items.filter(i => i.rarity === '4')[Math.floor(Math.random() * 7)];
-    if (roll < 0.95) return items.filter(i => i.rarity === '5')[Math.floor(Math.random() * 6)];
-    return items.find(i => i.rarity === 'secret');
-  }
-
-  function doPull(count) {
-    if (coinCount < count) {
-      notEnoughMsg.style.display = 'block';
-      setTimeout(() => notEnoughMsg.style.display = 'none', 2000);
-      return;
     }
 
-    coinCount -= count;
-    updateCoinDisplay();
-
-    const container = document.getElementById('resultContainer');
-    const loader = document.getElementById('loading');
-    container.innerHTML = '';
-    loader.style.display = 'block';
-
-    setTimeout(() => {
-      loader.style.display = 'none';
-      for (let i = 0; i < count; i++) {
-        const item = getRandomItem();
-        const card = document.createElement('div');
-        card.className = 'card';
-        const cardInner = document.createElement('div');
-        cardInner.className = 'card-inner';
-        const cardFront = document.createElement('div');
-        cardFront.className = 'card-front ' + (item.rarity === '4' ? 'blue' : item.rarity === '5' ? 'yellow' : 'purple');
-        const cardBack = document.createElement('div');
-        cardBack.className = 'card-back';
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.name;
-        img.title = item.name;
-        cardBack.appendChild(img);
-        cardInner.appendChild(cardFront);
-        cardInner.appendChild(cardBack);
-        card.appendChild(cardInner);
-
-        card.addEventListener('click', () => {
-  // Prevent multiple clicks
-  if (card.classList.contains('flipped')) return;
-
-  card.classList.add('flipped');
-
-  // ✨ Add glow class based on rarity
-  if (item.rarity === '4') {
-    card.classList.add('glow-blue');
-  } else if (item.rarity === '5') {
-    card.classList.add('glow-yellow');
-  } else if (item.rarity === 'secret') {
-    card.classList.add('glow-purple');
-  }
-
-  card.classList.add('animate-glow');
-
-  const sound = document.getElementById('flipSound');
-  sound.currentTime = 0;
-  sound.play();
-
-  collection[item.name]++;
-  updateCollectionDisplay();
-});
-        
-
-        container.appendChild(card);
-      }
-    }, 1500);
-  }
+  });
 </script>
+
 </body>
 </html>
